@@ -412,6 +412,9 @@ platform_do_upgrade() {
 		erase_emmc_config
 		return 0;
 		;;
+	linksys,mr7350)
+		platform_do_upgrade_linksys "$1"
+		;;
 	esac
 
 	echo "Upgrade failed!"

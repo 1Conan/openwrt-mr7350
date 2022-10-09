@@ -506,7 +506,7 @@ CONFIG_DEVEL=y
 CONFIG_BINARY_FOLDER=""
 CONFIG_DOWNLOAD_FOLDER=""
 CONFIG_LOCALMIRROR="https://codelinaro.jfrog.io/artifactory/codelinaro-qsdk/"
-CONFIG_GIT_MIRROR="https://git.codelinaro.org/clo/qsdk"
+CONFIG_GIT_MIRROR="https://git.codelinaro.org/clo/qsdk/"
 CONFIG_EXTERNAL_LINUX_CONFIG_NAME=""
 CONFIG_AUTOREBUILD=y
 # CONFIG_AUTOREMOVE is not set

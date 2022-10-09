@@ -38,3 +38,20 @@ define Device/8devices-mango-dvk
   IMAGE/sysupgrade.bin := insert-info | append-kernel $$$$(BLOCKSIZE) | append-rootfs | pad-rootfs | check-size $$$$(IMAGE_SIZE)
 endef
 TARGET_DEVICES += 8devices-mango-dvk
+
+define Device/linksys_mr7350
+	KERNEL_SIZE := 8192k
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	UBINIZE_OPTS := -E 5
+	IMAGES := factory.bin sysupgrade.bin
+	IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | \
+		append-ubi | linksys-image type=linksys_mr7350
+	DEVICE_TITLE := Linksys MR7350
+	DEVICE_DTS := ipq6018-mr7350
+	KERNEL_SUFFIX := -fit-uImage.itb
+	KERNEL = kernel-bin | gzip | fit gzip $$(DEVICE_DTS_DIR)/$$(DEVICE_DTS).dtb
+	KERNEL_NAME := Image
+	DEVICE_PACKAGES := kmod-leds-pca963x kmod-usb3 ath11k-firmware-ipq60xx
+endef
+TARGET_DEVICES += linksys_mr7350

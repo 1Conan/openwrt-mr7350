@@ -49,6 +49,13 @@ define Build/eva-image
 	mv $@.new $@
 endef
 
+define Build/linksys-image
+	$(TOPDIR)/scripts/linksys-image.sh \
+		"$(call param_get_default,type,$(1),$(DEVICE_NAME))" \
+		$@ $@.new
+		mv $@.new $@
+endef
+
 define Build/seama
 	$(STAGING_DIR_HOST)/bin/seama -i $@ \
 		-m "dev=/dev/mtdblock/$(SEAMA_MTDBLOCK)" -m "type=firmware"

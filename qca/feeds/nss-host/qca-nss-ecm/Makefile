@@ -104,7 +104,7 @@ define KernelPackage/qca-nss-ecm-standard
   $(call KernelPackage/qca-nss-ecm/Default)
   TITLE+= (with standard features)
   VARIANT:=standard
-  DEPENDS+=+PACKAGE_kmod-qca-mcs:kmod-qca-mcs +PACKAGE_kmod-qca-hyfi-bridge:kmod-qca-hyfi-bridge
+  DEPENDS+=+PACKAGE_kmod-qca-mcs:kmod-qca-mcs +PACKAGE_kmod-nat46:kmod-nat46 +PACKAGE_kmod-emesh-sp:kmod-emesh-sp
 endef
 
 define KernelPackage/qca-nss-ecm-standard/Description

@@ -5,21 +5,38 @@
 include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/image.mk
 
-UBIFS_OPTS = -m 2048 -e 124KiB -c 4096 -U -F
-
 define Device/Default
-  KERNEL = kernel-bin | lzma | fit lzma $$(DEVICE_DTS_DIR)/$$(DEVICE_DTS).dtb
-  KERNEL_IN_UBI := 1
-  IMAGES := sysupgrade.bin
-  IMAGE/sysupgrade.bin := append-ubi
-  BLOCKSIZE := 128KiB
-  PAGESIZE := 2048
-  UBINIZE_OPTS :=
-  DEVICE_DTS_DIR := $(DTS_DIR)
-  DEVICE_PACKAGES := kmod-qca-edma kmod-qca-psdk kmod-qca-ssdk-hnat kmod-qca_85xx_sw
+	PROFILES := Default
+	KERNEL_DEPENDS = $$(wildcard $(DTS_DIR)/$$(DEVICE_DTS).dts)
+	KERNEL_INITRAMFS_PREFIX := $$(IMG_PREFIX)-$(1)-initramfs
+	KERNEL_PREFIX := $$(IMAGE_PREFIX)
+	KERNEL_LOADADDR := 0x41080000
+	DEVICE_DTS_DIR := $(DTS_DIR)/qcom
+	SUPPORTED_DEVICES := $(subst _,$(comma),$(1))
+	IMAGE/sysupgrade.bin = sysupgrade-tar | append-metadata
+	IMAGE/sysupgrade.bin/squashfs :=
 endef
-DEVICE_VARS += DEVICE_DTS DEVICE_DTS_DIR
 
-include ipq60xx.mk
+define Device/FitImage
+	KERNEL_SUFFIX := -fit-uImage.itb
+	KERNEL = kernel-bin | gzip | fit gzip $$(DEVICE_DTS_DIR)/$$(DEVICE_DTS).dtb
+	KERNEL_NAME := Image
+endef
+
+define Device/linksys_mr7350
+	$(call Device/FitImage)
+	KERNEL_SIZE := 8192k
+	BLOCKSIZE := 128k
+	PAGESIZE := 2048
+	UBINIZE_OPTS := -E 5
+	IMAGES := factory.bin sysupgrade.bin
+	IMAGE/factory.bin := append-kernel | pad-to $$$$(KERNEL_SIZE) | \
+		append-ubi | linksys-image type=MR7350
+	DEVICE_TITLE := Linksys MR7350
+	DEVICE_DTS := ipq6018-linksys-mr7350
+	DEVICE_PACKAGES := kmod-leds-pca963x kmod-usb3 \
+		kmod-usb-ledtrig-usbport ath11k-firmware-ipq60xx
+endef
+TARGET_DEVICES += linksys_mr7350
 
 $(eval $(call BuildImage))

@@ -42,7 +42,7 @@ Signed-off-by: John Crispin <john@phrozen.org>
  static void channel_list_update_timeout(void *eloop_ctx, void *timeout_ctx);
  static void hostapd_interface_setup_failure_handler(void *eloop_ctx,
  						    void *timeout_ctx);
-+static void
++void
 +hostapd_switch_color_timeout_handler(void *eloop_data, void *user_ctx);
  
  
@@ -105,7 +105,7 @@ Signed-off-by: John Crispin <john@phrozen.org>
 +}
 +
 +
-+static void
++void
 +hostapd_switch_color_timeout_handler(void *eloop_data, void *user_ctx)
 +{
 +	struct hostapd_data *hapd = (struct hostapd_data *) eloop_data;

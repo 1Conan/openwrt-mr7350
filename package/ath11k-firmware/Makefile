@@ -3,8 +3,10 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=ath11k-firmware
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=https://github.com/kvalo/ath11k-firmware.git
-PKG_SOURCE_VERSION:=0497fb0c84eeb90182e729aedf6f741c26b878ce
-PKG_SOURCE_DATE:=2022-05-06
+PKG_SOURCE_VERSION:=301b9baac1f410cb9de58ee6919cf50d92141756
+PKG_SOURCE_DATE:=2022-10-08
+PKG_HASH:=9801608dbd56537469335a0cd7c7aec94fbc20d81794c30cc3351e1705ab004e
+PKG_MIRROR_HASH:=9801608dbd56537469335a0cd7c7aec94fbc20d81794c30cc3351e1705ab004e
 
 PKG_MAINTAINER:=John Crispin <john@phrozen.org>
 
@@ -42,11 +44,9 @@ endef
 
 define Package/ath11k-firmware-ipq60xx/install
 	$(INSTALL_DIR) $(1)/lib/firmware/IPQ6018
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/IPQ6018/hw1.0/2.4.0.1/WLAN.HK.2.4.0.1-01746-QCAHKSWPL_SILICONZ-1/* \
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/IPQ6018/hw1.0/2.7.0.1/WLAN.HK.2.7.0.1-01744-QCAHKSWPL_SILICONZ-1/* \
 		$(1)/lib/firmware/IPQ6018
 	$(INSTALL_DIR) $(1)/lib/firmware/ath11k/IPQ6018/hw1.0
-#	$(INSTALL_DATA) $(PKG_BUILD_DIR)/IPQ6018/hw1.0/caldata.bin \
-#		$(1)/lib/firmware/ath11k/IPQ6018/hw1.0
 	$(INSTALL_DATA) ./files/board-2-mango.bin \
 		$(1)/lib/firmware/ath11k/IPQ6018/hw1.0/board-2.bin
 	$(INSTALL_DATA) ./files/qdss_trace_config.bin \
