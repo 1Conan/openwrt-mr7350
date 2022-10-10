@@ -7,6 +7,7 @@ struct notifier_block;
 
 int qcom_register_ssr_notifier(struct notifier_block *nb);
 void qcom_unregister_ssr_notifier(struct notifier_block *nb);
+struct device;
 char **qcom_get_ssr_subdev_name(struct device *dev, int *num_subdev);
 #else
 

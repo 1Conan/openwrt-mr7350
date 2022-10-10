@@ -60,12 +60,12 @@ static void nss_dma_configure_msg(struct nss_dma_msg *ndm)
  */
 static void nss_dma_test_perf_msg(struct nss_dma_msg *ndm)
 {
-	struct nss_dma_test_cfg *ndtc = &ndm->msg.test_cfg;
-	struct nss_cmn_node_stats *ncns = &ndtc->node_stats;
+	// struct nss_dma_test_cfg *ndtc = &ndm->msg.test_cfg;
+	// struct nss_cmn_node_stats *ncns = &ndtc->node_stats;
 
-	nss_trace("%px: NSS DMA test perf message: \n",ndm);
-	nss_trace("%px: processed (TX: %u, RX:%u, time:%u)\n", ndm, ncns->tx_packets, ncns->rx_packets, ndtc->time_delta);
-	nss_trace("%px: test parameters (type:%u, packet_cnt:%u)\n", ndm, ndtc->type, ndtc->packet_count);
+	// nss_trace("%px: NSS DMA test perf message: \n",ndm);
+	// nss_trace("%px: processed (TX: %u, RX:%u, time:%u)\n", ndm, ncns->tx_packets, ncns->rx_packets, ndtc->time_delta);
+	// nss_trace("%px: test parameters (type:%u, packet_cnt:%u)\n", ndm, ndtc->type, ndtc->packet_count);
 }
 
 /*

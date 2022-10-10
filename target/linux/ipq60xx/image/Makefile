@@ -11,7 +11,7 @@ define Device/Default
 	KERNEL_INITRAMFS_PREFIX := $$(IMG_PREFIX)-$(1)-initramfs
 	KERNEL_PREFIX := $$(IMAGE_PREFIX)
 	KERNEL_LOADADDR := 0x41080000
-	DEVICE_DTS_DIR := $(DTS_DIR)/qcom
+	DEVICE_DTS_DIR := $(DTS_DIR)
 	SUPPORTED_DEVICES := $(subst _,$(comma),$(1))
 	IMAGE/sysupgrade.bin = sysupgrade-tar | append-metadata
 	IMAGE/sysupgrade.bin/squashfs :=

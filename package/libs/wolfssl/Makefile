@@ -8,14 +8,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=wolfssl
-PKG_VERSION:=5.1.1-stable
-PKG_RELEASE:=2
+PKG_VERSION:=5.5.1-stable
+PKG_RELEASE:=$(AUTORELEASE)
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/wolfSSL/wolfssl/archive/v$(PKG_VERSION)
-PKG_HASH:=d3e0544dbe7e9587c0f6538cdc671b6492663bb7a4281819538abe6c99cdbd92
+PKG_HASH:=97339e6956c90e7c881ba5c748dd04f7c30e5dbe0c06da765418c51375a6dee3
 
-PKG_FIXUP:=libtool
+PKG_FIXUP:=libtool libtool-abiver
 PKG_INSTALL:=1
 PKG_USE_MIPS16:=0
 PKG_BUILD_PARALLEL:=1
@@ -31,7 +31,10 @@ PKG_CONFIG_DEPENDS:=\
 	CONFIG_WOLFSSL_HAS_DH CONFIG_WOLFSSL_HAS_DTLS \
 	CONFIG_WOLFSSL_HAS_ECC25519 CONFIG_WOLFSSL_HAS_OCSP \
 	CONFIG_WOLFSSL_HAS_SESSION_TICKET CONFIG_WOLFSSL_HAS_TLSV10 \
-	CONFIG_WOLFSSL_HAS_TLSV13 CONFIG_WOLFSSL_HAS_WPAS CONFIG_WOLFSSL_ALT_NAMES
+	CONFIG_WOLFSSL_HAS_TLSV13 CONFIG_WOLFSSL_HAS_WPAS CONFIG_WOLFSSL_HAS_CERTGEN \
+	CONFIG_WOLFSSL_ALT_NAMES
+
+PKG_ABI_VERSION=$(patsubst %-stable,%,$(PKG_VERSION)).$(call version_abbrev,$(call confvar,$(PKG_CONFIG_DEPENDS)))
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -44,7 +47,7 @@ define Package/libwolfssl
   MENU:=1
   PROVIDES:=libcyassl
   DEPENDS:=+WOLFSSL_HAS_DEVCRYPTO:kmod-cryptodev +WOLFSSL_HAS_AFALG:kmod-crypto-user
-  ABI_VERSION:=30
+  ABI_VERSION:=$(PKG_ABI_VERSION)
 endef
 
 define Package/libwolfssl/description
@@ -68,6 +71,7 @@ TARGET_LDFLAGS += -flto
 # --enable-stunnel needed for OpenSSL API compatibility bits
 CONFIGURE_ARGS += \
 	--enable-reproducible-build \
+	--enable-lighty \
 	--enable-opensslall \
 	--enable-opensslextra \
 	--enable-sni \
@@ -78,6 +82,7 @@ CONFIGURE_ARGS += \
 	--disable-jobserver \
 	--$(if $(CONFIG_IPV6),enable,disable)-ipv6 \
 	--$(if $(CONFIG_WOLFSSL_HAS_AES_CCM),enable,disable)-aesccm \
+	--$(if $(CONFIG_WOLFSSL_HAS_CERTGEN),enable,disable)-certgen \
 	--$(if $(CONFIG_WOLFSSL_HAS_CHACHA_POLY),enable,disable)-chacha \
 	--$(if $(CONFIG_WOLFSSL_HAS_CHACHA_POLY),enable,disable)-poly1305 \
 	--$(if $(CONFIG_WOLFSSL_HAS_DH),enable,disable)-dh \
